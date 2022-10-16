@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block titile %}
+    {% block content %}
+        <div class="container">
+        <h4>{{ article.title }}tahrirlash</h4>
+        <form method="post"> {% csrf_token %}
+            {{ form.media }}
+            {{ form |crispy }}
+            <button class="btn btn-success" type="submit">Saqlash</button>
+        </form>
+        </div>
+
+    {% endblock %}
+
+{% endblock %}

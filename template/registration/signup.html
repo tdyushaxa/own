@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mb-5">
+        <h1> Registation page</h1>
+        <form  method="post">{% csrf_token %}
+            {{ form| crispy }}
+            <button class="btn btn-outline-success" type="submit">Ro'yxatdan o'tish  </button> <span>You have allready exist account  <a class="link-primary" href="{% url 'login' %}">login</a></span>
+        </form>
+
+    </div>
+
+{% endblock %}

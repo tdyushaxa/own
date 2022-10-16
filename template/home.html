@@ -1,0 +1,138 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<header>
+  <!-- Intro settings -->
+  <style>
+    /* Default height for small devices */
+    #intro-example {
+      height: 400px;
+    }
+
+    /* Height for devices larger than 992px */
+    @media (min-width: 994px) {
+      #intro-example {
+        height: 600px;
+      }
+    }
+  </style>
+
+  <!-- Background image -->
+  <div id="intro-example" class="p-5 text-center bg-image back_image">
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.7)">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          <h1 class="mb-3">Maxmudoff Blog</h1>
+          <h5 class="mb-4">
+            siz bu yerda ITga oid so'ngi yangiliklar va Dasturlashga oid Postlar
+            Ko'rishingiz mumkin
+          </h5>
+          <a
+            class="btn btn-outline-light btn-lg m-2"
+            href="{% url 'posts' %}"
+            role="button"
+            rel="nofollow"
+            target="_blank"
+            >Barcha postlar</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Background image -->
+</header>
+{% for object in page_obj.object_list %}
+
+<div class="card margin" style="max-width: 540px">
+  <div class="row">
+    <div class="col">
+      <img
+        src="{{ object.img.url }}"
+        class="img-fluid rounded-start container"
+        alt="{{ object.title }} image"
+      />
+    </div>
+    <div class="col-ms">
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="{% url 'detail_posts' object.pk %}">{{ object.title}}</a>
+        </h5>
+        <p class="card-text">{{ object.summary }}</p>
+        <p class="card-text">
+          <small class="text-muted"></small>{{ object.creatad_at|date:"M d, Y"}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+<div class="container1">
+  <nav aria-label="...">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+      
+        <a class="page-link" href="{% url 'home' %}?page=1">&laquo;first</a> </li>
+        <li class="page-item">
+        <a
+          class="page-link"
+          href="{% url 'home' %}?page={{page_obj.previous_page_number}}"
+          >Previous</a
+        ></li>
+        {% endif %}
+     
+      <li class="page-item active">
+        <a class="page-link" href="#">{{page_obj.number}}</a>
+      </li>
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        
+        <a
+          class="page-link"
+          href="{% url 'home' %}?page={{page_obj.next_page_number}}"
+          >Next</a
+        ></li>
+        <li class="page-item">
+        <a
+          class="page-link"
+          href="{% url 'home' %}?page={{page_obj.paginator.num_pages}}"
+          >last&laquo;</a
+        > </li>
+        <li class="page-item"><a href="{% url 'posts' %}" class="page-link">all</a></li>
+        {% endif %}
+     
+    </ul>
+  </nav>
+</div>
+
+<section class="">
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: #0a4275">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: CTA -->
+      <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+          <span class="me-3">Register for free</span>
+          <a
+            href="{% url 'signup' %}"
+            type="submit"
+            class="btn btn-outline-light btn-rounded"
+          >
+            Sign up!
+          </a>
+        </p>
+      </section>
+      <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      <a class="text-white links" href="{% url 'home' %}">Maxmudoff Blog</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+</section>
+
+{% endblock %}

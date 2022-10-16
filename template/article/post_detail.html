@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block titile %}
+    {{ article.title }}
+{% endblock %}
+{% block content %}
+    <div class="container">
+
+
+        <div class="card mb-3">
+        {% if article.img %}
+           <img class="card-img-top" src="{{ article.img.url }}" alt="Card image cap" width="400" height="600">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ article.title}}</h5>
+             {% if article.author == request.user %}
+                    <a href="{% url 'edit_posts' article.pk %}"><i class="bi bi-pencil-square"></i></a> <a href="{% url 'delete_posts' article.id %}"><i class="bi bi-trash2-fill"></i></a>
+                {% endif %}
+            <p class="card-text">{{ article.body| safe }}
+                </p>
+            <p class="card-text"><small class="text-muted"> Author: {{ article.author }} <span> {{ article.creatad_at|date:"M d, Y" }} </span></small>
+                </p>
+            <form action="{% url 'posts_like' article.pk %}" method="POST">{% csrf_token %}
+                <button type="submit" name="post_id" value="{{ article.pk }}" class="btn btn-primary btn-sm"><i class="bi bi-heart-fill"></i>({{ total_like }})</button>
+            </form>
+        </div>
+      </div>
+    <div class="row">
+    <div class="col-8  mb-5">
+        <form action="{% url 'review' article.pk %}" method="post">{% csrf_token %}
+            {{ from | crispy }}
+            <button type="submit" class="btn btn-outline-success">Add Comment</button>
+        </form>
+
+    </div>
+    </div>
+    {% if article.comment_set.exists %}
+          <h2 class="mb-2">All Comments({{ count }}) </h2>
+        {% for object in article.comment_set.all %}
+            <div class="row">
+            <div class="col-3 me-3">
+                <img class="detail_profile_pic" src="{{ object.user.image.url}}" alt="{{ object.user.username }} image " width="150px" height="150px">
+            </div>
+            <div class="col-7">
+                    <b>{{ object.user.username }}</b> <span>{{ object.creted_at|date:"M d, Y" }}</span>
+                <p>{{ object.comment }}</p>
+            </div>
+            </div>
+         {% endfor %}
+
+    {% endif %}
+ </div>
+{% endblock %}
