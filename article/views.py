@@ -39,16 +39,13 @@ class PostDetailView(View):
         article=Article.objects.get(id=pk)
         review_form=CommentForm()
         total_like =article.total_like()
-        count=Comment.objects.all().filter(post=article.pk).count()
+        count=Comment.objects.filter(post=article.pk).count()
         return render(request,'article/post_detail.html',{'article':article,'from':review_form,'count':count,"total_like":total_like})
-
-
 
 class LikePostView(LoginRequiredMixin,View):
     def post(self,request,pk):
         posts=get_object_or_404(Article,id=request.POST.get('post_id'))
         posts.like.add(request.user)
-
         return redirect(reverse('detail_posts', kwargs={'pk': posts.pk}))
 
 class BookReview(LoginRequiredMixin,View):

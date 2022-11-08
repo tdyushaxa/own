@@ -7,9 +7,7 @@ from accounts.models import CostumUser
 
 
 class CostumUserAdmin(UserAdmin):
-    model=CostumUser
-    add_form = CostumUserCreationForm
-    form = CostumUserCreationForm
+   
     list_display = ['username', 'last_name', 'first_name', 'email', 'age', 'is_staff','male']
     add_fieldsets = UserAdmin.fieldsets + ((None, {'fields': ('age',)}),
                                            )
